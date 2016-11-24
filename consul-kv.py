@@ -95,6 +95,9 @@ class ConsulInventory(object):
     # Build Ansible inventory
     def create_inventory(self):
         vars_dict = {}
+        vars_dict['all'] = {}
+        vars_dict['all']['vars'] = {}
+        vars_dict['all']['vars']['consul_kv'] = []
 
         for key_dict in self.consul_keylist:
 
