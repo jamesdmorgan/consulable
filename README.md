@@ -27,14 +27,33 @@ key_prefix=ansible
 
 All keys prefixed by **key_prefix** (/ansible) will get added to the Ansible inventory
 
-The first layer of the hierarchy is the group you want the key to apply to.
+The first layer of the hierarchy (after the index) is the group you want the key to apply to.
 
 ```
 /ansible/all/some_key
 ```
 
-Will add the *some_key* variable to the group *all*
+Adds the *some_key* variable to the group *all*
 
 All levels under group are considered part of the variable name.
 
 You can set *dicts* and *lists* as well as normal *strings*. These should be defined in YAML as you would in Ansible.
+
+**/ansible/all/list_example**
+```
+  - a
+  - b
+  - c
+```
+
+```
+TASK [debug] *******************************************************************
+ok: [localhost] => {
+    "list_example": [
+        "a",
+        "b",
+        "c"
+    ]
+}
+
+```
