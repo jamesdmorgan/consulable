@@ -28,9 +28,6 @@ try:
 except ImportError:
     import simplejson as json
 
-key_prefix = 'ansible'
-
-
 class ConsulInventory(object):
 
     def __init__(self):
@@ -38,6 +35,7 @@ class ConsulInventory(object):
         self.read_cli_args()
         self.consul_host = '127.0.0.1'
         self.consul_port = 8500
+        self.consul_key_prefix = 'ansible'
 
         self.read_settings()
 
@@ -92,6 +90,9 @@ class ConsulInventory(object):
         if config.has_option('consul', 'port'):
             self.consul_port = config.get('consul', 'port')
 
+        if config.has_option('consul', 'key_prefix'):
+            self.consul_key_prefix = config.get('consul', 'key_prefix')
+
     # Build Ansible inventory
     def create_inventory(self):
         vars_dict = {}
@@ -101,7 +102,7 @@ class ConsulInventory(object):
         for key_dict in self.consul_keylist:
 
             full_key = key_dict['Key']
-            match = re.match("^"+key_prefix+"/(\w+)/(.*)", full_key)
+            match = re.match("^"+self.consul_key_prefix+"/(\w+)/(.*)", full_key)
             if match:
                 group = match.group(1)
                 key = match.group(2)
